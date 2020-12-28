@@ -10,16 +10,16 @@ import com.example.mvpdemo.ui.inter.IBaseView
 
 abstract class BaseMVPFragment : Fragment(), IBaseView {
 
-    private var baseLoadingView:BaseLoadingView?= null
+    private var baseLoadingView: BaseLoadingView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return if (getLayoutId()!=0){
-            inflater.inflate(getLayoutId(),container,false)
-        }else{
+        return if (getLayoutId() != 0) {
+            inflater.inflate(getLayoutId(), container, false)
+        } else {
             super.onCreateView(inflater, container, savedInstanceState)
         }
     }
@@ -32,9 +32,7 @@ abstract class BaseMVPFragment : Fragment(), IBaseView {
     }
 
 
-
-
-    abstract fun getLayoutId():Int
+    abstract fun getLayoutId(): Int
 
     abstract fun initView()
 

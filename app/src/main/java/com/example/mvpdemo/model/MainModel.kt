@@ -8,12 +8,12 @@ import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
 
-class MainModel :IMainModel{
+class MainModel : IMainModel {
 
     private var newsBeanList = mutableListOf<NewsBean>()
 
     //请求
-    override fun getData(url:String,listener: IMainModel.OnGetDataListener) {
+    override fun getData(url: String, listener: IMainModel.OnGetDataListener) {
         OkHttpUtils.getInstance(App.get())?.getRequest(
             url,
             null,
@@ -25,11 +25,11 @@ class MainModel :IMainModel{
                         val data = jb.getString("data")
                         val list = JSONObject(data)
                         val lists = list.getJSONArray("list")
-                        for (i in 0 until lists.length()){
-                            val obj:JSONObject = lists.get(i) as JSONObject
+                        for (i in 0 until lists.length()) {
+                            val obj: JSONObject = lists.get(i) as JSONObject
                             val title = obj.getString("title")
                             val urls = obj.getString("url")
-                            val newsBean = NewsBean(title,urls)
+                            val newsBean = NewsBean(title, urls)
                             newsBeanList.add(newsBean)
                         }
                         listener.onGetDataFinished(newsBeanList)

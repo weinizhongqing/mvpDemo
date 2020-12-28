@@ -23,15 +23,13 @@ abstract class BaseMVPActivity<V, T : BasePresenter<V>> : AppCompatActivity(), I
         initData()
     }
 
-    abstract fun getLayoutId():Int
+    abstract fun getLayoutId(): Int
 
     abstract fun initView()
 
     abstract fun initData()
 
-    abstract fun getPresenter() : T
-
-
+    abstract fun getPresenter(): T
 
 
     private fun initLoadingView() {
@@ -66,13 +64,15 @@ abstract class BaseMVPActivity<V, T : BasePresenter<V>> : AppCompatActivity(), I
 
 
     fun showToast(msg: String) {
-        Toast.makeText(App.get(),
-                msg, Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            App.get(),
+            msg, Toast.LENGTH_SHORT
+        ).show()
 
     }
 
-    fun goActivity(clazz:Class<Any>, bundle: Bundle){
-        val intent = Intent(this,clazz)
+    fun goActivity(clazz: Class<Any>, bundle: Bundle) {
+        val intent = Intent(this, clazz)
         intent.putExtras(bundle)
         startActivity(intent)
     }

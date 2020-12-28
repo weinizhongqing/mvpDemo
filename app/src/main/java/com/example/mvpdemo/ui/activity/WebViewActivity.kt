@@ -20,7 +20,7 @@ class WebViewActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    private fun initWebSetTings(){
+    private fun initWebSetTings() {
         val webSettings = webView.settings
         //webSettings.javaScriptEnabled = true
         //设置自适应屏幕，两者合用

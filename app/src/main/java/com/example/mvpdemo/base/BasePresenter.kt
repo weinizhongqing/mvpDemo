@@ -1,7 +1,7 @@
 package com.example.mvpdemo.base
 
 open class BasePresenter<V> {
-    private var view:V ? = null
+    private var view: V? = null
 
     fun attachView(view: V) {
         this.view = view

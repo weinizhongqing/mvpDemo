@@ -46,12 +46,12 @@ class OkHttpUtils(context: Context) {
         val cache = Cache(fileCache, cacheSize)
         //进行OkHttpClient的一些设置
         mOkHttpClient = OkHttpClient.Builder()
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(10, TimeUnit.SECONDS)
-                //设置缓存
-                .cache(cache)
-                .build()
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(10, TimeUnit.SECONDS)
+            //设置缓存
+            .cache(cache)
+            .build()
         mHandler = Handler(Looper.getMainLooper())
         return this
     }
@@ -74,9 +74,9 @@ class OkHttpUtils(context: Context) {
             stringBuilder.deleteCharAt(stringBuilder.length - 1)
         }
         val request = Request.Builder()
-                .get()
-                .url(stringBuilder.toString())
-                .build()
+            .get()
+            .url(stringBuilder.toString())
+            .build()
         val call = mOkHttpClient.newCall(request)
         call.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
@@ -103,9 +103,9 @@ class OkHttpUtils(context: Context) {
         val mediaType = "application/json;charset=utf-8".toMediaTypeOrNull()
         val body = json.toRequestBody(mediaType)
         val request = Request.Builder()
-                .url(url)
-                .post(body)
-                .build()
+            .url(url)
+            .post(body)
+            .build()
         val call = mOkHttpClient.newCall(request)
         call.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
@@ -132,9 +132,9 @@ class OkHttpUtils(context: Context) {
     fun postForm(url: String, map: HashMap<String, Any>, callback: OkHttpCallback) {
         val body = buildParams(map)
         val request = Request.Builder()
-                .url(url)
-                .post(body)
-                .build()
+            .url(url)
+            .post(body)
+            .build()
         val call = mOkHttpClient.newCall(request)
         call.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
@@ -158,9 +158,9 @@ class OkHttpUtils(context: Context) {
 
     fun loadFile(url: String, callback: OkHttpCallback) {
         val request = Request.Builder()
-                .url(url)
-                .get()
-                .build()
+            .url(url)
+            .get()
+            .build()
         val call = mOkHttpClient.newCall(request)
         call.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
@@ -185,9 +185,17 @@ class OkHttpUtils(context: Context) {
      * @param  callback: OkHttpCallback 响应回调
      * @param   progressListener: ProgressRequestBody 进度回调
      */
-    fun upLoadFileAndParams(url: String, type: String, params: Map<String, Any>?, file: File, callback: OkHttpCallback, progressListener: ProgressRequestBody.ProgressListener) {
+    fun upLoadFileAndParams(
+        url: String,
+        type: String,
+        params: Map<String, Any>?,
+        file: File,
+        callback: OkHttpCallback,
+        progressListener: ProgressRequestBody.ProgressListener
+    ) {
 
-        val requestBody = file.asRequestBody("text/x-markdown; charset=utf-8".toMediaType())//表示任意二进制流
+        val requestBody =
+            file.asRequestBody("text/x-markdown; charset=utf-8".toMediaType())//表示任意二进制流
         //因为是文件参数混合上传，所以要分开构建
         val builder = MultipartBody.Builder()
         builder.setType(MultipartBody.FORM)
@@ -197,13 +205,13 @@ class OkHttpUtils(context: Context) {
             }
         }
         val multipartBody = builder
-                .addFormDataPart(type, file.name, requestBody)
-                .build()
+            .addFormDataPart(type, file.name, requestBody)
+            .build()
         val countingRequestBody = ProgressRequestBody(multipartBody, progressListener)
         val request = Request.Builder()
-                .url(url)
-                .post(countingRequestBody)
-                .build()
+            .url(url)
+            .post(countingRequestBody)
+            .build()
         val call = mOkHttpClient.newCall(request)
         call.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {

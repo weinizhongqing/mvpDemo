@@ -1,6 +1,6 @@
 package com.example.mvpdemo.ui.inter
 
-interface IBaseView{
+interface IBaseView {
     fun showLoading()
 
     fun hideLoading()
