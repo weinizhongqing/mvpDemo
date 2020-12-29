@@ -2,6 +2,7 @@ package com.example.mvpdemo.ui.activity
 
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mvpdemo.R
@@ -10,12 +11,13 @@ import com.example.mvpdemo.bean.NewsBean
 import com.example.mvpdemo.contract.IMainModel
 import com.example.mvpdemo.presenter.MainPresenter
 import com.example.mvpdemo.ui.adapter.NewsAdapter
+import com.example.mvpdemo.ui.inter.IBaseView
 
-class MainActivity : BaseMVPActivity<IMainModel, MainPresenter>(), IMainModel{
+class MainActivity : BaseMVPActivity<MainPresenter>(), IMainModel{
 
     private lateinit var recyclerView: RecyclerView
     private val path: String =
-        "https://i.news.qq.com/trpc.qqnews_web.kv_srv.kv_srv_http_proxy/list?sub_srv_id=24hours&srv_id=pc&offset=0&limit=20&strategy=1&ext={\"pool\":[\"top\"],\"is_filter\":7,\"check_type\":true}"
+        "https://i.news.qq.com/trpc.qqnews_web.kv_srv.kv_srv_http_proxy/list?sub_srv_id=24hours&srv_id=pc&offset=0&limit=40&strategy=1&ext={\"pool\":[\"top\"],\"is_filter\":7,\"check_type\":true}"
 
     private val mainPresenter by lazy {
         getPresenter()
@@ -26,13 +28,14 @@ class MainActivity : BaseMVPActivity<IMainModel, MainPresenter>(), IMainModel{
 
     override fun initView() {
         recyclerView = findViewById(R.id.recyclerView)
+        mainPresenter.setIEventCallback(this)
     }
 
     override fun initData() {
         mainPresenter.getData(path)
     }
 
-    override fun getPresenter(): MainPresenter = MainPresenter(this)
+    override fun getPresenter(): MainPresenter = MainPresenter()
 
 
     override fun showDataBean(bean: MutableList<NewsBean>?) {
@@ -46,8 +49,10 @@ class MainActivity : BaseMVPActivity<IMainModel, MainPresenter>(), IMainModel{
         }
     }
 
-    override fun showErrorMsg(msg: String?) {
+    override fun showErrorMsg(msg: String) {
         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show()
     }
+
+
 
 }

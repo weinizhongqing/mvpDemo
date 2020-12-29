@@ -1,17 +1,18 @@
 package com.example.mvpdemo.base
 
-open class BasePresenter<V> {
-    private var view: V? = null
+import com.example.mvpdemo.ui.inter.IBaseView
 
-    fun attachView(view: V) {
-        this.view = view
+open class BasePresenter<V:IBaseView> {
+
+    var mIBaseView: V? = null
+
+    fun setIEventCallback(eventCallback:V){
+        this.mIBaseView = eventCallback
     }
 
-    fun detachView() {
-        this.view = null
+    fun <E> callback(action: V.()->E): E? = mIBaseView?.run{
+        action()
     }
 
-    fun isAttach(): Boolean {
-        return view != null
-    }
+
 }

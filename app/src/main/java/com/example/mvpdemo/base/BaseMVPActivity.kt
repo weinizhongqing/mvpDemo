@@ -9,7 +9,7 @@ import com.example.mvpdemo.R
 import com.example.mvpdemo.ui.inter.IBaseView
 
 @Suppress("UNCHECKED_CAST")
-abstract class BaseMVPActivity<V, T : BasePresenter<V>> : AppCompatActivity(), IBaseView {
+abstract class BaseMVPActivity<T : BasePresenter<*>> : AppCompatActivity(), IBaseView {
     private var baseLoadingView: BaseLoadingView? = null
     private var basePresenter: T? = null
 
@@ -17,7 +17,6 @@ abstract class BaseMVPActivity<V, T : BasePresenter<V>> : AppCompatActivity(), I
         super.onCreate(savedInstanceState)
         setContentView(getLayoutId())
         basePresenter = getPresenter()
-        basePresenter?.attachView(this as V)
         initLoadingView()
         initView()
         initData()

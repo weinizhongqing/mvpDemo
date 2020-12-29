@@ -6,8 +6,7 @@ import com.example.mvpdemo.bean.NewsBean
 import com.example.mvpdemo.contract.IMainModel
 import com.example.mvpdemo.model.MainModel
 
-class MainPresenter(private var mView: IMainModel) :
-    BasePresenter<IMainModel>(), CallBack<MutableList<NewsBean>,String> {
+class MainPresenter : BasePresenter<IMainModel>(){
 
     private var mModel: MainModel? = null
 
@@ -15,20 +14,33 @@ class MainPresenter(private var mView: IMainModel) :
         mModel = MainModel()
     }
 
+    //view层调用方法
     fun getData(url: String) {
-        this.mView.showLoading()
-        this.mModel?.getData(url, this)
-    }
 
-    override fun onSuccess(data: MutableList<NewsBean>?) {
-        this.mView.hideLoading()
-        data?.apply {
-            mView.showDataBean(this)
+        callback {
+            //显示加载框
+            showLoading()
+            //调用model层方法返回数据
+            mModel?.getData(url, object : CallBack<MutableList<NewsBean>,String>{
+                override fun onSuccess(data: MutableList<NewsBean>) {
+                    hideLoading()
+                    showDataBean(data)
+                }
+                override fun onFail(msg: String) {
+                    hideLoading()
+                    showErrorMsg(msg)
+                }
+            })
         }
+
+
+
+
+
     }
 
 
-    override fun onFail(data: String?) {
-        mView.showErrorMsg(data)
-    }
+
+
+
 }
