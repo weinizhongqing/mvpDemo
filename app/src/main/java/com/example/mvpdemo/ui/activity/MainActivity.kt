@@ -2,6 +2,7 @@ package com.example.mvpdemo.ui.activity
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mvpdemo.R
 import com.example.mvpdemo.base.BaseMVPActivity
@@ -10,7 +11,7 @@ import com.example.mvpdemo.contract.IMainModel
 import com.example.mvpdemo.presenter.MainPresenter
 import com.example.mvpdemo.ui.adapter.NewsAdapter
 
-class MainActivity : BaseMVPActivity<IMainModel.IMainView, MainPresenter>(), IMainModel.IMainView {
+class MainActivity : BaseMVPActivity<IMainModel, MainPresenter>(), IMainModel{
 
     private lateinit var recyclerView: RecyclerView
     private val path: String =
@@ -45,7 +46,8 @@ class MainActivity : BaseMVPActivity<IMainModel.IMainView, MainPresenter>(), IMa
         }
     }
 
-    override fun showErrorMsg(msg: String) {
-        showToast(msg)
+    override fun showErrorMsg(msg: String?) {
+        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show()
     }
+
 }

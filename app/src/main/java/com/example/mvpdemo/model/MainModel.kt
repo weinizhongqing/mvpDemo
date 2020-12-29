@@ -1,19 +1,21 @@
 package com.example.mvpdemo.model
 
 import com.example.mvpdemo.App
+import com.example.mvpdemo.`interface`.CallBack
 import com.example.mvpdemo.bean.NewsBean
-import com.example.mvpdemo.contract.IMainModel
+
 import com.example.mvpdemo.http.OkHttpUtils
+
 import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
 
-class MainModel : IMainModel {
+class MainModel{
 
     private var newsBeanList = mutableListOf<NewsBean>()
 
     //请求
-    override fun getData(url: String, listener: IMainModel.OnGetDataListener) {
+    fun getData(url: String, callback: CallBack<MutableList<NewsBean>,String>) {
         OkHttpUtils.getInstance(App.get())?.getRequest(
             url,
             null,
@@ -32,13 +34,13 @@ class MainModel : IMainModel {
                             val newsBean = NewsBean(title, urls)
                             newsBeanList.add(newsBean)
                         }
-                        listener.onGetDataFinished(newsBeanList)
+                        callback.onSuccess(newsBeanList)
                     }
 
                 }
 
                 override fun onError(e: IOException) {
-                    listener.error(e.message!!)
+                    callback.onFail(e.message!!)
                 }
             })
     }

@@ -8,6 +8,7 @@ import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mvpdemo.R
 
+@Suppress("DEPRECATION")
 class WebViewActivity : AppCompatActivity() {
 
     private lateinit var webView: WebView

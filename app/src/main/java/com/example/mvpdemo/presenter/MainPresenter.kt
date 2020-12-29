@@ -1,14 +1,15 @@
 package com.example.mvpdemo.presenter
 
+import com.example.mvpdemo.`interface`.CallBack
 import com.example.mvpdemo.base.BasePresenter
 import com.example.mvpdemo.bean.NewsBean
 import com.example.mvpdemo.contract.IMainModel
 import com.example.mvpdemo.model.MainModel
 
-class MainPresenter(private var mView: IMainModel.IMainView) :
-    BasePresenter<IMainModel.IMainView>(), IMainModel.OnGetDataListener {
+class MainPresenter(private var mView: IMainModel) :
+    BasePresenter<IMainModel>(), CallBack<MutableList<NewsBean>,String> {
 
-    private var mModel: IMainModel? = null
+    private var mModel: MainModel? = null
 
     init {
         mModel = MainModel()
@@ -19,14 +20,15 @@ class MainPresenter(private var mView: IMainModel.IMainView) :
         this.mModel?.getData(url, this)
     }
 
-    override fun onGetDataFinished(bean: MutableList<NewsBean>?) {
+    override fun onSuccess(data: MutableList<NewsBean>?) {
         this.mView.hideLoading()
-        bean?.apply {
+        data?.apply {
             mView.showDataBean(this)
         }
     }
 
-    override fun error(msg: String) {
-        mView.showErrorMsg(msg)
+
+    override fun onFail(data: String?) {
+        mView.showErrorMsg(data)
     }
 }
