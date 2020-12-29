@@ -1,6 +1,7 @@
 package com.example.mvpdemo.ui.activity
 
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mvpdemo.R
 import com.example.mvpdemo.base.BaseMVPActivity
@@ -37,6 +38,7 @@ class MainActivity : BaseMVPActivity<IMainModel.IMainView, MainPresenter>(), IMa
         val adapter = NewsAdapter(this, R.layout.news_item, bean!!)
         recyclerView.adapter = adapter
         adapter.setOnItemClickListener {
+            Log.e("TAG", "showDataBean: "+bean[it].url)
             val bundle = Bundle()
             bundle.putString("data", bean[it].url)
             goActivity(WebViewActivity().javaClass, bundle)

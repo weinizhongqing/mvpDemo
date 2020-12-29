@@ -1,10 +1,11 @@
 package com.example.mvpdemo.ui.activity
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.webkit.WebSettings
 import android.webkit.WebView
+import android.webkit.WebViewClient
+import androidx.appcompat.app.AppCompatActivity
 import com.example.mvpdemo.R
 
 class WebViewActivity : AppCompatActivity() {
@@ -22,7 +23,7 @@ class WebViewActivity : AppCompatActivity() {
     @SuppressLint("SetJavaScriptEnabled")
     private fun initWebSetTings() {
         val webSettings = webView.settings
-        //webSettings.javaScriptEnabled = true
+        webSettings.javaScriptEnabled = true
         //设置自适应屏幕，两者合用
         webSettings.useWideViewPort = true //将图片调整到适合webview的大小
         webSettings.loadWithOverviewMode = true // 缩放至屏幕的大小
@@ -34,13 +35,19 @@ class WebViewActivity : AppCompatActivity() {
         //其他细节操作
         webSettings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK //关闭webview中缓存
         webSettings.allowFileAccess = true //设置可以访问文件
-        //webSettings.javaScriptCanOpenWindowsAutomatically = true //支持通过JS打开新窗口
+        webSettings.javaScriptCanOpenWindowsAutomatically = true //支持通过JS打开新窗口
         webSettings.loadsImagesAutomatically = true //支持自动加载图片
         webSettings.defaultTextEncodingName = "utf-8"//设置编码格式
 
         val bundle = intent.extras
         bundle?.getString("data")?.let { webView.loadUrl(it) }
 
+        webView.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                view.loadUrl(url)
+                return super.shouldOverrideUrlLoading(view, url)
+            }
+        }
     }
 
 }
